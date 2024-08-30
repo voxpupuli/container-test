@@ -39,7 +39,7 @@ jobs:
       - name: Build local container
         uses: docker/build-push-action@v6
         with:
-          tags: 'ci/test:${{ matrix.puppet_release }}'
+          tags: 'ci/test:latest'
           push: false
           build-args: |
             BASE_IMAGE=${{ matrix.base_image }}
@@ -48,7 +48,7 @@ jobs:
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: 'ci/test:${{ matrix.puppet_release }}'
+          image: 'ci/test:latest'
           fail-build: false
 
       - name: Inspect action SARIF report
