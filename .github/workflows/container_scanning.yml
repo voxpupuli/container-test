@@ -1,11 +1,13 @@
 ---
-name: CI🚦
+name: Security Scanning 🕵️
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   setup-matrix:
@@ -34,7 +36,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build image
+      - name: Build local container
         uses: docker/build-push-action@v6
         with:
           tags: 'ci/test:${{ matrix.puppet_release }}'
@@ -42,10 +44,7 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ matrix.base_image }}
 
-  tests:
-    needs:
-      - build_test_container
-    runs-on: ubuntu-latest
-    name: Test suite
-    steps:
-      - run: echo Test suite completed
+      - name: Scan image with Anchore Grype
+        uses: anchore/scan-action@v3
+        with:
+          image: 'ci/test:${{ matrix.puppet_release }}'
