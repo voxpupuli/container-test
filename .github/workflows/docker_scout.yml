@@ -45,7 +45,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        image: 'local://ci/voxbox:${{ matrix.rubygem_puppet }}'
+        image: 'local://ci/test:${{ matrix.rubygem_puppet }}'
         sarif-file: sarif.output.${{ matrix.rubygem_puppet }}.${{ github.sha }}.json
         write-comment: false
 
@@ -54,8 +54,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        image: 'local://ci/voxbox:${{ matrix.rubygem_puppet }}'
-        to: 'ghcr.io/voxpupuli/voxbox:${{ matrix.puppet_release }}-main'
+        image: 'local://ci/test:${{ matrix.rubygem_puppet }}'
+        to: 'ghcr.io/voxpupuli/test:${{ matrix.puppet_release }}-main'
         summary: true
         keep-previous-comments: true
 
