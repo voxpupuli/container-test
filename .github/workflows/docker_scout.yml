@@ -45,8 +45,8 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves
-        image: 'local://ci/test:${{ matrix.rubygem_puppet }}'
-        sarif-file: sarif.output.${{ matrix.rubygem_puppet }}.${{ github.sha }}.json
+        image: 'local://ci/test:${{ matrix.puppet_release }}'
+        sarif-file: sarif.output.${{ matrix.puppet_release }}.${{ github.sha }}.json
         write-comment: false
 
     - name: Compare container image to latest from Registry
@@ -54,7 +54,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: compare
-        image: 'local://ci/test:${{ matrix.rubygem_puppet }}'
+        image: 'local://ci/test:${{ matrix.puppet_release }}'
         to: 'ghcr.io/voxpupuli/test:${{ matrix.puppet_release }}-main'
         summary: true
         keep-previous-comments: true
@@ -63,4 +63,4 @@ jobs:
       id: upload-sarif
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: sarif.output.${{ matrix.rubygem_puppet }}.${{ github.sha }}.json
+        sarif_file: sarif.output.${{ matrix.puppet_release }}.${{ github.sha }}.json
