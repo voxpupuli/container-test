@@ -2,13 +2,10 @@
 name: Docker Scout
 
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - 'main'
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI🚦"]
+    types:
+      - completed
 
 jobs:
   setup-matrix:
