@@ -102,5 +102,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue_number,
-              body: 'See Docker Scout results [here](${{ github.event.workflow.html_url }}).'
+              body: 'See Docker Scout results [here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).'
             });
