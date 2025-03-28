@@ -91,7 +91,7 @@ jobs:
           push: true
           platforms: linux/${{ matrix.platform }}
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.sha }}-${{ matrix.platform }}
+            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-${{ matrix.platform }}
 
   create-multiarch-manifests:
     runs-on: ubuntu-latest
@@ -115,13 +115,12 @@ jobs:
           username: voxpupulibot
           password: ${{ secrets.DOCKERHUB_BOT_PASSWORD }}
 
-
       - name: Create multiarch manifests
         run: |
-          docker buildx imagetools create -t ghcr.io/${{ github.repository }}:latest \
-            ghcr.io/${{ github.repository }}:${{ github.sha }}-amd64 \
-            ghcr.io/${{ github.repository }}:${{ github.sha }}-arm64
+          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/test:latest \
+            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
+            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
 
-          docker buildx imagetools create -t docker.io/${{ github.repository }}:latest \
-            ghcr.io/${{ github.repository }}:${{ github.sha }}-amd64 \
-            ghcr.io/${{ github.repository }}:${{ github.sha }}-arm64
+          docker buildx imagetools create -t docker.io/${{ github.repository_owner }}/test:latest \
+            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
+            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
