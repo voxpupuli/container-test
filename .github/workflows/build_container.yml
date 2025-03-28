@@ -91,29 +91,29 @@ jobs:
           push: true
           platforms: linux/${{ matrix.platform }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-${{ matrix.platform }}
+            ghcr.io/${{ github.repository_owner }}/test:latest
 
-  create-multiarch-manifests:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs:
-      - build-and-push-container
-    steps:
-      - name: Log in to the ghcr.io registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  # create-multiarch-manifests:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   needs:
+  #     - build-and-push-container
+  #   steps:
+  #     - name: Log in to the ghcr.io registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create multiarch manifests
-        run: |
-          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/test:latest \
-            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
-            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
+  #     - name: Create multiarch manifests
+  #       run: |
+  #         docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/test:latest \
+  #           ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
+  #           ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
 
-          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/test:latest-${{ github.ref_name }} \
-            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
-            ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
+  #         docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/test:latest-${{ github.ref_name }} \
+  #           ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-amd64 \
+  #           ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-arm64
