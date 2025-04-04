@@ -22,9 +22,13 @@ jobs:
       - name: 'Setup yq'
         uses: dcarbone/install-yq-action@v1.3.1
 
+        # creates a matrix of the form build_versions and build_platforms
+        # so if you got 2 versions and 2 platforms, you will get 4 builds
       - id: set-build-matrix
         run: echo "build_matrix=$(bash matrix.sh build)" >> $GITHUB_OUTPUT
 
+        # creates a subset from the build matrix to be used for tagging
+        # so if you got 2 versions you will get 2 tags
       - id: set-tag-matrix
         run: echo "tag_matrix=$(bash matrix.sh tag)" >> $GITHUB_OUTPUT
 
