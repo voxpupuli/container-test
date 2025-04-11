@@ -21,9 +21,8 @@
       "datasourceTemplate": "deb"
     }
   ],
-  {
-    "vulnerabilityAlerts": {
-      "labels": ["security"]
-    }
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
   }
 }
