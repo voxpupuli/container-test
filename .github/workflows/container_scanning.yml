@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build local container
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           tags: 'ci/test:latest'
           push: false
