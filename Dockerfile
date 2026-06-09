@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=docker.io/library/alpine:3.23
+ARG BASE_IMAGE=docker.io/library/alpine:3.24
 
 FROM $BASE_IMAGE
 
