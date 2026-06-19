@@ -4,7 +4,7 @@
 
 version: 2
 updates:
-  # Maintain dependencies for Ruby projects using Bundler
+  # raise PRs for gem updates
   - package-ecosystem: bundler
     directory: "/"
     schedule:
@@ -12,7 +12,6 @@ updates:
       time: "13:00"
     open-pull-requests-limit: 10
 
-  # Maintain dependencies for Dockerfiles
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
