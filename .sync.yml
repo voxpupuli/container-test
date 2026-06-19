@@ -1,10 +1,31 @@
 ---
-.github/workflows/ci.yml:
+global:
   matrix_command: yq -o=json build_versions.yaml | jq -c
   matrix_requires_yq: true
   build_file: Dockerfile
   image_tag: 'ci/test:${{ matrix.puppet_release }}'
   build_args:
     - 'BASE_IMAGE=${{ matrix.base_image }}'
+.github/workflows/ci.yml:
   dependabot_automerge: false
-  save_pr_number: true
+.github/workflows/security_scanning.yml:
+  unmanaged: true
+.github/workflows/build_container.yml:
+  matrix_command: bash matrix.sh build
+  publish_runner: '${{ matrix.runner }}'
+  publish_build_job_name: 'Build test container ${{ matrix.puppet_release }} (${{ matrix.platform }})'
+  publish_build_arch: 'linux/${{ matrix.platform }}'
+  publish_tags:
+    - 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
+  publish_attestation_subject: 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
+  publish_manifest_matrix_command: bash matrix.sh tag
+  publish_manifest_steps:
+    - name: Create multi-architecture manifests
+      commands:
+        - >-
+          docker buildx imagetools create
+          -t ghcr.io/${{ github.repository_owner }}/test:v${{ matrix.puppet_release }}-latest
+          -t docker.io/${{ github.repository_owner }}/test:v${{ matrix.puppet_release }}-latest
+          ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-amd64
+          ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-arm64
+  dockerhub_repository: voxpupuli/test
