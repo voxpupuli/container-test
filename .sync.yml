@@ -9,11 +9,12 @@
 .github/workflows/ci.yml:
   dependabot_automerge: false
 .github/workflows/security_scanning.yml:
-  unmanaged: true
+  scan_job_name: 'Scan ci container ${{ matrix.puppet_release }}'
+  sarif_category: 'grype-puppet-${{ matrix.puppet_release }}'
 .github/workflows/build_container.yml:
   matrix_command: bash matrix.sh build
   publish_runner: '${{ matrix.runner }}'
-  publish_build_job_name: 'Build test container ${{ matrix.puppet_release }} (${{ matrix.platform }})'
+  publish_build_job_name: 'Build ci container ${{ matrix.puppet_release }} (${{ matrix.platform }})'
   publish_build_arch: 'linux/${{ matrix.platform }}'
   publish_tags:
     - 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
