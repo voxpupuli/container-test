@@ -72,20 +72,3 @@ jobs:
         uses: re-actors/alls-green@release/v1
         with:
           jobs: ${{ toJSON(needs) }}
-
-  save-pr-number:
-    name: Save PR number
-    runs-on: ubuntu-latest
-    steps:
-      - name: Write PR number
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-        run: |
-          mkdir -p pr
-          echo "$PR_NUMBER" > pr/pr_number
-
-      - name: Upload PR number
-        uses: actions/upload-artifact@v7
-        with:
-          name: pr_number
-          path: pr/
