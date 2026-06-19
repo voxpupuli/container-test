@@ -1,5 +1,5 @@
 ---
-global:
+:global:
   matrix_command: yq -o=json build_versions.yaml | jq -c
   matrix_requires_yq: true
   build_file: Dockerfile
