@@ -47,7 +47,7 @@ jobs:
           echo "manifest-matrix=$matrix_json" >> "$GITHUB_OUTPUT"
 
   build-and-push-container:
-    name: Build test container ${{ matrix.puppet_release }} (${{ matrix.platform }})
+    name: Build ci container ${{ matrix.puppet_release }} (${{ matrix.platform }})
     runs-on: ${{ matrix.runner }}
     needs:
       - setup-matrix
