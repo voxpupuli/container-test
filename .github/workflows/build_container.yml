@@ -107,7 +107,7 @@ jobs:
       - name: Attest image
         uses: actions/attest@v4
         with:
-          subject-name: ${{ steps.build_and_publish.outputs.image }}
+          subject-name: ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
           subject-digest: ${{ steps.build_and_publish.outputs.digest }}
           push-to-registry: true
 
