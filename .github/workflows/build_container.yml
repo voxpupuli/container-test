@@ -65,23 +65,36 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Build and publish container
-        id: build
-        uses: voxpupuli/gha-build-and-publish-a-container@v2
+        id: build_and_publish
+        uses: docker/build-push-action@v6
         with:
-          registry_password: ${{ secrets.GITHUB_TOKEN }}
-          build_args: |
+          context: .
+          file: Dockerfile
+          build-args: |
             BASE_IMAGE=${{ matrix.base_image }}
-          build_arch: linux/${{ matrix.platform }}
-          build_context: .
-          buildfile: Dockerfile
+          platforms: linux/${{ matrix.platform }}
+          push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
+
+      # - name: Build and publish container
+      #   id: build
+      #   uses: voxpupuli/gha-build-and-publish-a-container@v2
+      #   with:
+      #     registry_password: ${{ secrets.GITHUB_TOKEN }}
+      #     build_args: |
+      #       BASE_IMAGE=${{ matrix.base_image }}
+      #     build_arch: linux/${{ matrix.platform }}
+      #     build_context: .
+      #     buildfile: Dockerfile
+      #     tags: |
+      #       ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
 
       - name: Attest image
         uses: actions/attest@v4
         with:
-          subject-name: ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
-          subject-digest: ${{ steps.build.outputs.digest }}
+          subject-name: ${{ steps.build_and_publish.outputs.image }}
+          subject-digest: ${{ steps.build_and_publish.outputs.digest }}
           push-to-registry: true
 
   create-multiarch-manifests:
