@@ -18,7 +18,7 @@
   publish_build_arch: 'linux/${{ matrix.platform }}'
   publish_tags:
     - 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
-  publish_attestation_subject: 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
+  # publish_attestation_subject: 'ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}'
   publish_manifest_matrix_command: bash matrix.sh tag
   publish_manifest_steps:
     - name: Create multi-architecture manifests
