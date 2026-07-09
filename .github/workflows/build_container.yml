@@ -55,10 +55,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.setup-matrix.outputs.build-matrix) }}
     permissions:
-      artifact-metadata: write
-      attestations: write
       contents: read
-      id-token: write
       packages: write
     steps:
       - name: Checkout repository
@@ -76,13 +73,6 @@ jobs:
           buildfile: Dockerfile
           tags: |
             ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
-
-      - name: Attest image
-        uses: actions/attest@v4
-        with:
-          subject-name: ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
-          subject-digest: ${{ steps.build.outputs.digest }}
-          push-to-registry: true
 
   create-multiarch-manifests:
     name: Create multi-architecture manifests
