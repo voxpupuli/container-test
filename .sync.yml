@@ -6,8 +6,6 @@
   image_tag: 'ci/test:${{ matrix.puppet_release }}'
   build_args:
     - 'BASE_IMAGE=${{ matrix.base_image }}'
-.github/workflows/ci.yml:
-  dependabot_automerge: false
 .github/workflows/security_scanning.yml:
   scan_job_name: 'Scan ci container ${{ matrix.puppet_release }}'
   sarif_category: 'grype-puppet-${{ matrix.puppet_release }}'
