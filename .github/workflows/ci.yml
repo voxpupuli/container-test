@@ -54,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: Dockerfile
+          file: Containerfile
           tags: 'ci/test:${{ matrix.puppet_release }}'
           push: false
           build-args: |
