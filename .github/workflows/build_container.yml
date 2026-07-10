@@ -70,7 +70,7 @@ jobs:
             BASE_IMAGE=${{ matrix.base_image }}
           build_arch: linux/${{ matrix.platform }}
           build_context: .
-          buildfile: Dockerfile
+          buildfile: Containerfile
           tags: |
             ghcr.io/${{ github.repository_owner }}/test:${{ github.sha }}-v${{ matrix.puppet_release }}-${{ matrix.platform }}
 
